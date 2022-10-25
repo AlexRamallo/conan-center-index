@@ -22,17 +22,18 @@ class FlatbuffersConan(ConanFile):
         "shared": [True, False],
         "fPIC": [True, False],
         "header_only": [True, False],
+        "flatc": [True, False]
     }
     default_options = {
         "shared": False,
         "fPIC": True,
         "header_only": False,
+        "flatc": True
     }
 
     @property
     def _has_flatc(self):
-        # don't build flatc when it makes little sense or not supported
-        return self.settings.os not in ["Android", "iOS", "watchOS", "tvOS", "Neutrino"]
+        return self.options.flatc
 
     def export_sources(self):
         copy(self, os.path.join("cmake", "FlatcTargets.cmake"), self.recipe_folder, self.export_sources_folder)
